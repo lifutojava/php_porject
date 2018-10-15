@@ -1,0 +1,83 @@
+<!DOCTYPE html5>
+<html>
+  <head>
+    <title>主页面</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <!-- 导入easyui组件  ${pageContext.request.contextPath}  -->
+ 	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+	<script type="text/javascript" src="../jquery.min.js"></script>
+	<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+  </head>
+<body style="background-image: url('./images/bg001.jpg');">
+	<center>
+		<h2 style="color: red;font:fantasy;">欢迎来的登录页面</h2>
+		<p style="color: red;" >您可以通过本页面登录或注册</p>
+		<div style="margin:20px 0;"></div>
+		<div class="easyui-panel" title="" style="width:100%;max-width:600px;padding:30px 60px;">
+			<form id="ff" class="easyui-form" method="post" data-options="novalidate:true" >
+				<input type="hidden" name="mark" id="mark" value="user_login" />
+				<div style="margin-bottom:20px">
+					<input class="easyui-textbox"  name="name" iconWidth="28" style="width:100%;height:34px;padding:10px;" data-options="prompt:'登录邮箱',iconCls:'icon-man',iconWidth:38">
+				</div>
+				<div style="margin-bottom:20px">
+					<input class="easyui-passwordbox"  name="password" iconWidth="28" style="width:100%;height:34px;padding:10px" data-options="prompt:'登录密码',iconCls:'icon-lock',iconWidth:38">
+				</div>
+				<div style="margin-bottom:20px">
+					<input class="easyui-textbox" prompt="code" name="code" iconWidth="34" style="width:40%;height:36px;padding:10px">
+					<img src="../../libs/Model/imageCaptcha.php" onclick="this.src='/MVCPHP/libs/Model/imageCaptcha.php?'+new Date().getTime();" width="150" height="30"><br/>
+<!--					<img src="../../libs/Model/imageCaptcha.php" onclick="this.src='/MVCPHP/libs/Model/imageCaptcha.php?'+new Date().getTime();" width="200" height="40"><br/>
+ 					<a href="javascript:;" id="code" name="code" class="showcode" onclick="getCode()" ><img id="image" style=" margin:0 0 0 3px ; vertical-align:middle;  height:36px;" src="/springboot/getCode"></a> -->
+				</div>
+				<div style="margin-bottom:20px">
+					<input type="checkbox" checked="checked" name="logrem" id="logrem">
+					<span  style="padding:10px">Remember me</span>
+				</div>
+				<div style="text-align:center;padding:0px 0">
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">Submit</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">Clear</a>
+					<a href="/MVCPHP/jquery-easyui/mydemo/addUser.html" class="easyui-linkbutton" style="width:80px">AddUser</a>
+					<a href="/MVCPHP/operamasks-ui/index.html" class="easyui-linkbutton" style="width:140px">operamasks-ui</a>
+					<a href="/MVCPHP/getAllPages.html" class="easyui-linkbutton" style="width:140px">getAallPages</a>
+				</div>
+    		</div>
+
+			</form>
+		</div>
+	</center>
+
+	<script>
+		function submitForm(){
+			$('#ff').form('submit',{
+				url:'/MVCPHP/libs/Controller/controllers.php',
+// 				datatype: "json",
+				async : false, //同步
+                onSubmit: function(){
+                       return $(this).form('enableValidation').form('validate');
+                    },
+				//注意ajax的url的后台action方法必须有返回值return "json"，而不是return null,否则下面的回调函数不起作用，sucess方法失效
+                success:function(data){
+                	debugger;
+                	var obj = JSON.parse(data);
+                	 if( data == null || obj.mark == 'fail'){
+                		$.messager.alert("提示消息", "登录错误！！" + data +"!");
+                		clearForm();
+					}else if(obj.mark == 'success'){
+						//top.location.href = "/MVCPHP/jquery-easyui/mydemo/main.html?id="+obj.msg; //转主页面
+					    var url = encodeURI("/MVCPHP/jquery-easyui/mydemo/main.html?id="+obj.id+"&vserName="+obj.vserName);
+   						var enurl = encodeURI(url);//使用了两次encodeRUI进行编码
+						window.location.href = enurl ;//转主页面
+		        	}
+                }
+			});
+		}
+
+		function clearForm(){
+			$('#ff').form('clear');
+			$('#mark').val("user_login");
+			//$("#ff").datagrid("reload");
+		}
+		
+	</script>
+</body>
+</html>

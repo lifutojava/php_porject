@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>主页面</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <!-- 导入easyui组件  ${pageContext.request.contextPath}  -->
+    <!-- 导入easyui组件  ${pageContext.request.contextPath}  -->
+ 	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">   
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">   
+	<script type="text/javascript" src="../jquery.min.js"></script>   
+	<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+	<style type="text/css">
+		.datagrid-header,
+		.datagrid-td-rownumber {
+		  height:27px;
+		  background-color: #efefef;
+		  background: -webkit-linear-gradient(top,#F9F9F9 0,#efefef 100%);
+		  background: -moz-linear-gradient(top,#F9F9F9 0,#efefef 100%);
+		  background: -o-linear-gradient(top,#F9F9F9 0,#efefef 100%);
+		  background: linear-gradient(to bottom,#F9F9F9 0,#efefef 100%);
+		  background-repeat: repeat-x;
+		  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F9F9F9,endColorstr=#efefef,GradientType=0);
+		}
+	</style>
+  </head>
+  
+<body class="easyui-layout" >   
+<!--     <div data-options="region:'north',title:'North Title',split:true" style="height:150px;"></div>    -->
+<!--     <div data-options="region:'east',iconCls:'icon-reload',title:'East',split:true" style="width:150px;"></div>    -->
+	<div data-options="region:'north'" style="height:40px;background-color: gray;">
+		<table style="height: 100%;width: 100%;">
+			<tr>
+				<td>001</td>
+				<td>002</td>
+				<td>003</td>
+				<td>004</td>
+				<td><span style="color:red;">欢迎 : </span></td>
+				<td>006</td>
+			</tr>
+			<tr>
+				<td>001</td>
+				<td>002</td>
+				<td>003</td>
+				<td>004</td>
+				<td>005</td>
+				<td>006</td>
+			</tr>
+		</table>
+	</div>
+
+	<div  data-options="region:'west',split:true,title:'主菜单'" style="width:130px;padding:1px 0;">
+	<center>
+		<div class="easyui-linkbutton" style="height: 25px;width:120px; color: blue;" onclick="getAllUsers()" >getAllUsers</div>
+		<div class="easyui-linkbutton" style="height: 25px;width:120px; color: blue;" >New1</div>
+		<div class="easyui-linkbutton" style="height: 25px;width:120px; color: blue;" >New1</div>
+		<div class="easyui-linkbutton" style="height: 25px;width:120px; color: blue;" >New1</div>
+	</center>
+	</div>
+
+
+	<!-- background:#eee; -->
+	<div data-options="region:'center',title:'主显示区域'" style="padding:0px;">
+		<table id="tb1"></table>
+	</div>
+	
+	<div data-options="region:'south',split:true,title:'附加信息显示区域'" style="height:220px;">
+    
+    </div>
+</body> 
+
+<script>
+	function getContextPath() {
+		var pathName = document.location.pathname;
+		var index = pathName.substr(1).indexOf("/");
+		var result = pathName.substr(0, index + 1);
+		return result;
+	}
+	
+	  function getAllUsers() {
+	  //debugger;
+        var editRow = undefined;
+        $("#tb1").datagrid({
+            fitColumns: true,
+            striped: true,
+            singleSelect: false,
+            pagination: true,
+            rownumbers: true,         
+            pageSize: 15,
+            pageList: [10, 15, 20],
+            //这里需要接收【总行数total】和【数据组rows】的【JSON格式】的数据{total:23,rows:[{},{}]}
+            url: '/MVCPHP/libs/Controller/controllers.php?mark=user_getAll',            
+            columns: [
+                   [// u.Id,u.UName,u.Pwd,u.Remark,u.SubTime
+                  	 { title: "ID", field: "id", allgn: "center", width: 20 },
+                  	 { title: "所属组织", field: "toId", allgn: "center", width: 40 , editor:'text' },
+                     { title: "登录帐号", field: "name", allgn: "center", width: 40 , editor:'text' },
+                     { title: "密码", field: "password", allgn: "center", width: 40   },
+                     { title: "用户姓名", field: "vserName", allgn: "center",width: 40   },
+                     { title: "手机号", field: "mobile", allgn: "center", width: 40  },
+                     { title: "电子邮箱", field: "email", allgn: "center", width: 40   },
+                     { title: "创建时间", field: "genTime", allgn: "center", width: 40   },
+                     {
+                         title: "编辑", field: "xx", allgn: "center",width: 40  , formatter: function (value, row, index) {
+                             var btn = '<a class=Update>修改</a>|<a class=delete>删除</a>';
+                             return btn;
+                         }
+                     },
+                   ]
+            ],
+            //在数据加载成功的时候触发。
+            onLoadSuccess: function (data) {
+                $('.Update').linkbutton({
+                    text: '修改',
+                    iconCls: 'icon-edit',
+                    plain: true,//是否显示边线
+                    onClick: function () {
+                        var zhi = $("#tb1").datagrid("getSelections");
+                        window.location.href = '/MVCPHP/jquery-easyui/mydemo/update.html' +"?id=" + zhi[0].id;
+                        //window.location.href = '/MVCPHP/libs/Controller/controllers.php?mark=user_update'+"&id=" + zhi[0].id;
+                        //top.location.href = "/springboot/easyui/mydemo/addUser.html"+"?user.loginName=" + zhi[0].loginName; //转主页面
+                    }
+                })
+                $('.delete').linkbutton({
+                    text: '删除',
+                    iconCls: 'icon-edit',
+                    plain: true,//是否显示边线
+                    onClick: function () {
+                        var zhi = $("#tb1").datagrid("getSelections");
+                        $.ajax({
+                            type: 'POST',
+                            dataType: 'json',
+                            url: '/MVCPHP/libs/Controller/controllers.php?mark=user_delete&id=' + zhi[0].id,
+                            success: function (data) {
+                                $("#tb1").datagrid("reload");
+                            }
+                        })
+                    }
+                })
+            }/* ,
+            toolbar: [
+                {
+                    text: "添加",
+                    iconCls: "icon-add",
+                    handler: function () {
+                        //window.open("/springboot/easyui/mydemo/addUser.html")
+                        top.location.href = "/springboot/easyui/mydemo/addUser.html"; //转主页面
+                    }
+                },
+            {
+                text: "删除",
+                iconCls: "icon-cancel",
+            } 
+            ],*/
+        })
+    }
+</script>
+</html>

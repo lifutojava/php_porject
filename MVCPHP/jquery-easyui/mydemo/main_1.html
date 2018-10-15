@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>主页面</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    	<!-- 导入easyui组件 -->
+	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">   
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">   
+	<script type="text/javascript" src="../jquery.min.js"></script>   
+	<script type="text/javascript" src="../jquery.easyui.min.js"></script>  
+	<script type="text/javascript">
+		function addTab(title, url){
+			if ($('#tt').tabs('exists', title)){
+				$('#tt').tabs('select', title);
+			} else {
+				var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+				$('#tt').tabs('add',{
+					title:title,
+					content:content,
+					closable:true
+				});
+			}
+		}	
+	</script>
+  </head>
+  <body>
+<!--  可折叠功能的面板 -->
+	<!--  <div id="p" class="easyui-panel" style="width:500px;height:200px;padding:10px;"   
+        title="My Panel" iconCls="icon-save" collapsible="true">   
+   	    The panel content    
+	</div>   
+   	<div id="p" class="easyui-panel" style="width:500px;height:200px;padding:10px;"   
+        title="My Panel" data-options="iconCls:'icon-save',collapsible:true">   
+    The panel content    
+	</div>  -->
+   	
+   	
+<!--    	<input class="easyui-combobox" name="language"   
+        data-options="    
+            url:'/combobox_data.json',    
+            valueField:'id',    
+            textField:'text',    
+            panelHeight:'auto',    
+            onSelect:function(record){    
+                alert(record.text)    
+            }" />  --> 
+   	
+   	<!-- 通过标签创建布局 -->
+ <!--   	<div id="cc" class="easyui-layout" style="width:600px;height:400px;">   
+    <div data-options="region:'north',title:'North Title',split:true" style="height:100px;"></div>   
+    <div data-options="region:'south',title:'South Title',split:true" style="height:100px;"></div>   
+    <div data-options="region:'east',iconCls:'icon-reload',title:'East',split:true" style="width:100px;"></div>   
+    <div data-options="region:'west',title:'West',split:true" style="width:100px;"></div>   
+    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;"></div>   
+	</div>   -->
+   	
+   	<!-- 使用完整页面创建布局 -->
+  <!--   <body class="easyui-layout">   
+    <div data-options="region:'north',title:'North Title',split:true" style="height:100px;"></div>   
+    <div data-options="region:'south',title:'South Title',split:true" style="height:100px;"></div>   
+    <div data-options="region:'east',iconCls:'icon-reload',title:'East',split:true" style="width:100px;"></div>   
+    <div data-options="region:'west',title:'West',split:true" style="width:100px;"></div>   
+    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;"></div>   
+	</body>   -->
+   	
+   <!-- 	创建嵌套布局 -->
+<!--    	<body class="easyui-layout">   
+    <div data-options="region:'north'" style="height:100px"></div>   
+    <div data-options="region:'center'">   
+        <div class="easyui-layout" data-options="fit:true">   
+            <div data-options="region:'west',collapsed:true" style="width:180px"></div>   
+            <div data-options="region:'center'"></div>   
+        </div>   
+    </div>   
+</body>   -->
+
+   	<!-- 通过ajax读取内容 -->
+   	<!-- <body class="easyui-layout">   
+    <div data-options="region:'west',href:'west_content.php'" style="width:180px" ></div>   
+    <div data-options="region:'center',href:'center_content.php'" ></div>   
+	</body>   -->
+   	
+   <!-- 	表单 -->
+	<!-- <form id="ff" method="post">   
+	    <div>   
+	        <label for="name">Name:</label>   
+	        <input class="easyui-validatebox" type="text" name="name" data-options="required:true" />   
+	    </div>   
+	    <div>   
+	        <label for="email">Email:</label>   
+	        <input class="easyui-validatebox" type="text" name="email" data-options="validType:'email'" />   
+	    </div>   
+	</form>   -->
+	
+<!-- 	<form id="person" action="">
+		<input class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:300px"> 
+	</form> -->
+	
+	
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>通过JavaScript来创建EasyUI布局</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+     引入JQuery
+      <script type="text/javascript" src="jquery-easyui-1.4.1/jquery.min.js"></script>
+      引入EasyUI
+      <script type="text/javascript" src="jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+      引入EasyUI的中文国际化js，让EasyUI支持中文
+      <script type="text/javascript" src="jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+      引入EasyUI的样式文件
+      <link rel="stylesheet" href="jquery-easyui-1.4.1/themes/default/easyui.css" type="text/css"/>
+      引入EasyUI的图标样式文件
+      <link rel="stylesheet" href="jquery-easyui-1.4.1/themes/icon.css" type="text/css"/>
+      <script type="text/javascript">
+          $(function(){
+              //画面加载完成之后就调用layout()方法将body变成easy的layout
+              $('#easyUILayoutBody').layout();   
+          });
+      </script>
+  </head> -->
+  <!--给body指定class属性指定easy的easyui-layout样式，这样就可以 使用body创建easyui的layout -->
+<!--   <body id="easyUILayoutBody">   -->
+<!--     <div data-options="region:'north',title:'North Title'" style="height:100px"></div>
+    布局中如果不需要west这个面板，那么可以删掉这个div  
+    <div data-options="region:'west',title:'West'" style="width:100px;"></div>
+    <div data-options="region:'center',title:'center'"></div>   -->
+<!--   </body>  
+</html> -->
+<body class="easyui-layout" > 
+	    <div data-options="region:'north'" style="height:20px"></div>
+		<div data-options="region:'south',split:true" style="height:50px;"></div>
+		<div data-options="region:'east',split:true" title="East" style="width:100px;"></div>
+		<div data-options="region:'west',split:true" title="West" style="width:100px;">
+			<div style="margin-bottom:10px">
+				<a href="#" class="easyui-linkbutton" onclick="addTab('google','http://www.google.com')">google</a>
+				<a href="#" class="easyui-linkbutton" onclick="addTab('jquery','http://jquery.com/')">jquery</a>
+				<a href="#" class="easyui-linkbutton" onclick="addTab('easyui','http://jeasyui.com/')">easyui</a>
+			</div>
+			<div id="tt" class="easyui-tabs" style="width:400px;height:250px;">
+				<div title="Home">
+				</div>
+			</div>
+		</div>
+		<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+			<table class="easyui-datagrid"
+					data-options="url:'datagrid_data1.json',method:'get',border:false,singleSelect:true,fit:true,fitColumns:true">
+				<thead>
+					<tr>
+						<th data-options="field:'itemid'" width="80">Item ID</th>
+						<th data-options="field:'productid'" width="100">Product ID</th>
+						<th data-options="field:'listprice',align:'right'" width="80">List Price</th>
+						<th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
+						<th data-options="field:'attr1'" width="150">Attribute</th>
+						<th data-options="field:'status',align:'center'" width="60">Status</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+  </body>
+</html>

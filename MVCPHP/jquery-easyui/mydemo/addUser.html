@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>主页面</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <!-- 导入easyui组件  ${pageContext.request.contextPath}  -->
+ 	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+	<script type="text/javascript" src="../jquery.min.js"></script>
+	<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+
+<!-- 	<link rel="stylesheet" type="text/css" th:href="@{themes/default/easyui.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{themes/icon.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{jquery.min.js}" />
+	<link rel="stylesheet" type="text/css" th:href="@{jquery.easyui.min.js}" />
+	-->
+  </head>
+<body>
+	<center>
+		<h2>Basic Form</h2>
+		<p>Fill the form and submit it.</p>
+		<div style="margin:20px 0;"></div>
+		<div class="easyui-panel" title="New Topic" style="width:100%;max-width:400px;padding:30px 60px;">
+			<form id="ff" method="post" class="easyui-form">
+				<input type="hidden" name="mark" value="user_add"/>
+				<div style="margin-bottom:20px">
+					<input class="easyui-textbox" name="name" style="width:100%" data-options="label:'loginName:',prompt:'输入你的登录用户 .', required:true">
+				</div>
+				<div style="margin-bottom:20px">
+				<input class="easyui-passwordbox" style="width:100%" id="password" name="password"
+						validType="length[4,32]" data-options="label:'password:',required:true,validType:'password',prompt:'输入你的密码 .'" /><br/>
+				</div>
+				<div style="margin-bottom:20px">
+				<input class="easyui-passwordbox" style="width:100%" id="repassword" validType="equalTo['#password']"
+						data-options="label:'AgenPassWord:',required:true,prompt:'再次输入你的密码 .'" invalidMessage="两次输入密码不匹配"/>
+				</div>
+				<div style="margin-bottom:20px">
+					<input class="easyui-textbox" name="email" style="width:100%" data-options="label:'Email:',required:true,validType:'email',prompt:'输入你的Email .'">
+				</div>
+				<div style="margin-bottom:20px">
+					<input class="easyui-textbox" name="mobile" style="width:100%" data-options="label:'mobile:',prompt:'输入你的手机号码.', required:true,validType:'phoneRex'">
+				</div>
+				<div style="margin-bottom:20px">
+					<input class="easyui-textbox" name="vserName" style="width:100%" data-options="label:'VserName:',required:true,prompt:'输入你的真实姓名.'">
+				</div>
+	<!-- 			<div style="margin-bottom:20px">
+					<select class="easyui-combobox" name="language" label="Language" style="width:100%"><option value="ar">Arabic</option><option value="bg">Bulgarian</option><option value="ca">Catalan</option><option value="zh-cht">Chinese Traditional</option><option value="cs">Czech</option><option value="da">Danish</option><option value="nl">Dutch</option><option value="en" selected="selected">English</option><option value="et">Estonian</option><option value="fi">Finnish</option><option value="fr">French</option><option value="de">German</option><option value="el">Greek</option><option value="ht">Haitian Creole</option><option value="he">Hebrew</option><option value="hi">Hindi</option><option value="mww">Hmong Daw</option><option value="hu">Hungarian</option><option value="id">Indonesian</option><option value="it">Italian</option><option value="ja">Japanese</option><option value="ko">Korean</option><option value="lv">Latvian</option><option value="lt">Lithuanian</option><option value="no">Norwegian</option><option value="fa">Persian</option><option value="pl">Polish</option><option value="pt">Portuguese</option><option value="ro">Romanian</option><option value="ru">Russian</option><option value="sk">Slovak</option><option value="sl">Slovenian</option><option value="es">Spanish</option><option value="sv">Swedish</option><option value="th">Thai</option><option value="tr">Turkish</option><option value="uk">Ukrainian</option><option value="vi">Vietnamese</option></select>
+				</div> -->
+			</form>
+			<div style="text-align:center;padding:5px 0">
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">Submit</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">Clear</a>
+				<a href="/MVCPHP/" class="easyui-linkbutton" style="width:80px">Login</a>
+			</div>
+		</div>
+	</center>
+	<script>
+		$.extend($.fn.validatebox.defaults.rules, {
+        /*必须和某个字段相等*/
+        equalTo: { validator: function (value, param) { return $(param[0]).val() == value; }, message: '字段不匹配' }
+       });
+		//自定义验证
+		$.extend($.fn.validatebox.defaults.rules, {
+		phoneRex: {
+				validator: function(value){
+					var rex=/^1[3-8]+\d{9}$/;
+					//var rex=/^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+					//区号：前面一个0，后面跟2-3位数字 ： 0\d{2,3}
+					//电话号码：7-8位数字： \d{7,8
+					//分机号：一般都是3位数字： \d{3,}
+					 //这样连接起来就是验证电话的正则表达式了：/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/
+					var rex2=/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+					if(rex.test(value)||rex2.test(value)) {
+					  // alert('t'+value);
+					  return true;
+					}else {
+					 //alert('false '+value);
+					   return false;
+					}
+				},
+				message: '请输入正确电话或手机格式'
+			}
+		});
+
+		function submitForm(){ //user_add
+			$('#ff').form('submit',{
+				url:'/MVCPHP/libs/Controller/controllers.php',
+                onSubmit: function(){
+                       return $(this).form('enableValidation').form('validate');
+                    },
+				//注意ajax的url的后台action方法必须有返回值return "json"，而不是return null,否则下面的回调函数不起作用，sucess方法失效
+                success:function(data){
+               		// debugger;
+               		//登录失败处理
+               		if( data == null || data == 'fail'){
+               			 $.messager.confirm("确认", "注册失败！！" + data +"  是否重新注册！！", function (r) {
+					        if (!r) {
+					        	$(this).form("clear");
+					        	top.location.href = "/MVCPHP/"; //转主页面
+					        }
+			   			 });
+
+               		}else if(data == 'success'){ //成功处理
+	               		 $.messager.confirm("确认", "注册成功！！", function (r) {
+					        if (r) {
+					       		 $(this).form("clear");
+					        	top.location.href = "/MVCPHP/"; //转主页面
+					        }
+			   			 });
+
+               		}
+				}
+			});
+		}
+
+		function clearForm(){
+			$('#ff').form('clear');
+		}
+
+	</script>
+</body>
+
+</html>
